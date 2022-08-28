@@ -122,7 +122,10 @@
                     </TabControl.Resources>
                     <TabItem Header="活动" Style="{DynamicResource TabItemStyle1}">
                         <StackPanel>
-                            <TextBlock Margin="10">
+                            <TextBlock
+                                Margin="10"
+                                MouseLeftButtonDown="GoToBroswer"
+                                Tag="https://github.com/gc-toolkit/GenshinLauncher">
                                 测试项目：<Hyperlink Cursor="Hand" NavigateUri="https://github.com/SwetyCore/GenshinLauncher">SwetyCore/GenshinLauncher</Hyperlink>
                             </TextBlock>
                         </StackPanel>

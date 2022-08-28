@@ -1,6 +1,7 @@
 ﻿using PU_Test.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,5 +53,11 @@ namespace PU_Test
             this.Close();
         }
 
+        private void GoToBroswer(object sender, MouseButtonEventArgs e)
+        {
+            dynamic control = sender;
+            var url=control.Tag.ToString();
+            Process.Start("explorer.exe", url);
+        }
     }
 }

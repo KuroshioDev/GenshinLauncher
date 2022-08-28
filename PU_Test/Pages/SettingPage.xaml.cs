@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,5 +32,13 @@ namespace PU_Test.Pages
         {
             GlobalValues.frame.Visibility = Visibility.Collapsed;
         }
+
+        private void GoToBroswer(object sender, MouseButtonEventArgs e)
+        {
+            dynamic control = sender;
+            var url = control.Tag.ToString();
+            Process.Start("explorer.exe", url);
+        }
     }
+
 }

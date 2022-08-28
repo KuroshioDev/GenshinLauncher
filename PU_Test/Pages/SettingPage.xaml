@@ -161,12 +161,30 @@
                         <TextBlock Margin="0,25,0,5" FontSize="20">
                             关于
                         </TextBlock>
+
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
+                                Cursor="Hand"
                                 FontSize="16"
                                 Foreground="#dcbc60"
-                                Text="开源地址" />
+                                MouseLeftButtonDown="GoToBroswer"
+                                Tag="https://github.com/gc-toolkit/GenshinLauncher"
+                                Text="开源仓库" />
+                            <TextBlock
+                                Margin="10,0"
+                                Cursor="Hand"
+                                FontSize="16"
+                                Foreground="#dcbc60"
+                                MouseLeftButtonDown="GoToBroswer"
+                                Tag="https://github.com/gc-toolkit/GenshinLauncher/issues"
+                                Text="bug反馈" />
+
                         </StackPanel>
+                        <TextBlock
+                            Margin="0,20"
+                            FontSize="16"
+                            Foreground="Gray"
+                            Text="内部测试版本" />
                         <TextBlock
                             Margin="0,20"
                             FontSize="16"
