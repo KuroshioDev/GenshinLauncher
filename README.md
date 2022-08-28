@@ -33,3 +33,7 @@
 	前往 [https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0](https://dotnet.microsoft.com/zh-cn/download/dotnet/thank-you/runtime-desktop-6.0.8-windows-x64-installer)下载运行环境
 + 其他  
 	前往 [issues](https://github.com/gc-toolkit/GenshinLauncher/issues)具体描述你遇到的问题
+
+## 🙇‍感谢
++ [Grasscutters/Cultivation](https://github.com/Grasscutters/Cultivation)
++ [Bambi5/Collei_Launcher](https://github.com/Bambi5/Collei_Launcher)
