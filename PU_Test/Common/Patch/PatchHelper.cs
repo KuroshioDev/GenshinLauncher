@@ -1,4 +1,5 @@
-﻿using PU_Test.Model;
+﻿using Newtonsoft.Json;
+using PU_Test.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,7 @@ namespace PU_Test.Common.Patch
     {
         GameInfo gameInfo;
         const string METADATA_FILE_NAME = "global-metadata.dat";
+        const string PKG_VERSION_FILE = "pkg_version";
         public PatchHelper(GameInfo info)
         {
             gameInfo = info;
@@ -35,13 +37,83 @@ namespace PU_Test.Common.Patch
             }
             return file_path;
         }
+        public string GetHashFromPkgVer(string filepath)
+        {
+
+
+            var gamedir = Path.GetDirectoryName(gameInfo.GameExePath);
+
+            var lines =File.ReadAllLines(Path.Combine(gamedir,PKG_VERSION_FILE));
+
+            string target = null;
+            foreach (var item in lines)
+            {
+                if (item.Contains(filepath))
+                {
+                    target = item;
+                    break;
+
+                }
+            }
+            return JsonConvert.DeserializeObject<PkgVersionItem>(target).md5;
+        }
+
+        public string GetHashFromFile(string filepath)
+        {
+            try
+            {
+                FileStream file = new FileStream(filepath, System.IO.FileMode.Open);
+                MD5 md5 = new MD5CryptoServiceProvider();
+                byte[] retVal = md5.ComputeHash(file);
+                file.Close();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < retVal.Length; i++)
+                {
+                    sb.Append(retVal[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
+            }
+            
+        }
 
         public void BackUpFile(string FILE_NAME)
         {
-            //备份
-            if (!File.Exists( FILE_NAME + ".bak"))
+            var gamedir = Path.GetDirectoryName(gameInfo.GameExePath);
+
+            string official=string.Empty;
+            string backup=string.Empty;
+            if (File.Exists(FILE_NAME))
             {
-                File.Copy(FILE_NAME, FILE_NAME + ".bak");
+                official=GetHashFromPkgVer("Managed/Metadata/global-metadata.dat");
+
+                string currentMd5 = GetHashFromFile(Path.Combine(GetPatchDir(),METADATA_FILE_NAME));
+
+                if (File.Exists(Path.Combine(GetPatchDir(), METADATA_FILE_NAME+".bak")))
+                {
+                    backup= GetHashFromFile(Path.Combine(GetPatchDir(), METADATA_FILE_NAME+".bak"));
+                }
+
+                //官方与备份相同，不用备份
+                if (official == backup)
+                {
+                    return;
+                }
+                //官方与现存相同
+                if (official==currentMd5)
+                {
+                        //备份
+                        File.Copy(FILE_NAME, FILE_NAME + ".bak");
+
+                    
+                }
+            }
+            else
+            {
+                throw new Exception("找不到pkg_version文件！");
             }
         }
 
@@ -49,6 +121,16 @@ namespace PU_Test.Common.Patch
         { 
             if (File.Exists( FILE_NAME + ".bak"))
             {
+                var backup = GetHashFromFile(Path.Combine(GetPatchDir(), METADATA_FILE_NAME + ".bak"));
+                var official=GetHashFromPkgVer("Managed/Metadata/global-metadata.dat");
+
+                if (official!=backup)
+                {
+                    MessageBox.Show("备份文件不是官方文件，恢复失败！");
+
+                    return;
+                }
+                
                 File.Copy(FILE_NAME + ".bak", FILE_NAME, true);
                 MessageBox.Show("成功恢复了备份文件！");
             }
@@ -191,9 +273,14 @@ namespace PU_Test.Common.Patch
             var dir = GetPatchDir();
             try
             {
+                var official = GetHashFromPkgVer("Managed/Metadata/global-metadata.dat");
+
+                var current  = GetHashFromFile(Path.Combine(GetPatchDir(), METADATA_FILE_NAME));
+
                 //不相同即为已 Patch
-                var r1 = !isValidFileContent(Path.Combine(dir, METADATA_FILE_NAME), Path.Combine(dir, METADATA_FILE_NAME + ".bak"));
-                if (r1)
+                //var r1 = !isValidFileContent(Path.Combine(dir, METADATA_FILE_NAME), Path.Combine(dir, METADATA_FILE_NAME + ".bak"));
+
+                if (current!=official)
                 {
                     result = PatchType.MetaData;
                 }
@@ -207,23 +294,23 @@ namespace PU_Test.Common.Patch
             return result;
         }
 
-        public static bool isValidFileContent(string filePath1, string filePath2)
-        {
-            var file1Md5 = new MD5CryptoServiceProvider().ComputeHash(File.ReadAllBytes(filePath1));
-            var file2Md5 = new MD5CryptoServiceProvider().ComputeHash(File.ReadAllBytes(filePath2));
-            return Encoding.Default.GetString( file1Md5) == Encoding.Default.GetString(file2Md5);
-            ////创建一个哈希算法对象
-            //using (HashAlgorithm hash = HashAlgorithm.Create())
-            //{
-            //    using (FileStream file1 = new FileStream(filePath1, FileMode.Open), file2 = new FileStream(filePath2, FileMode.Open))
-            //    {
-            //        byte[] hashByte1 = hash.ComputeHash(file1);//哈希算法根据文本得到哈希码的字节数组
-            //        byte[] hashByte2 = hash.ComputeHash(file2);
-            //        string str1 = BitConverter.ToString(hashByte1);//将字节数组装换为字符串
-            //        string str2 = BitConverter.ToString(hashByte2);
-            //        return (str1 == str2);//比较哈希码
-            //    }
-            //}
-        }
+        //public static bool isValidFileContent(string filePath1, string filePath2)
+        //{
+        //    var file1Md5 = new MD5CryptoServiceProvider().ComputeHash(File.ReadAllBytes(filePath1));
+        //    var file2Md5 = new MD5CryptoServiceProvider().ComputeHash(File.ReadAllBytes(filePath2));
+        //    return Encoding.Default.GetString( file1Md5) == Encoding.Default.GetString(file2Md5);
+        //    ////创建一个哈希算法对象
+        //    //using (HashAlgorithm hash = HashAlgorithm.Create())
+        //    //{
+        //    //    using (FileStream file1 = new FileStream(filePath1, FileMode.Open), file2 = new FileStream(filePath2, FileMode.Open))
+        //    //    {
+        //    //        byte[] hashByte1 = hash.ComputeHash(file1);//哈希算法根据文本得到哈希码的字节数组
+        //    //        byte[] hashByte2 = hash.ComputeHash(file2);
+        //    //        string str1 = BitConverter.ToString(hashByte1);//将字节数组装换为字符串
+        //    //        string str2 = BitConverter.ToString(hashByte2);
+        //    //        return (str1 == str2);//比较哈希码
+        //    //    }
+        //    //}
+        //}
     }
 }
