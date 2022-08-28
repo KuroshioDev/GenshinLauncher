@@ -108,7 +108,12 @@ namespace PU_Test.Common.Patch
                         //备份
                         File.Copy(FILE_NAME, FILE_NAME + ".bak");
 
-                    
+
+                }
+                else
+                {
+                    throw new Exception("补丁目标不正确：不是官方文件！");
+
                 }
             }
             else
