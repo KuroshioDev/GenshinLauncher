@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Controls/StartGameButton.xaml" />
+        <ResourceDictionary Source="Controls/IconButton.xaml" />
+        <ResourceDictionary Source="Controls/WindowControlButton.xaml" />
+        <ResourceDictionary Source="Controls/InfoTabItem.xaml" />
+        <ResourceDictionary Source="Controls/SettingCloseBtn.xaml" />
+        <ResourceDictionary Source="Controls/SideBarTabStyle.xaml" />
+        <ResourceDictionary Source="Controls/SimpleStyleButton.xaml" />
+        <ResourceDictionary Source="Controls/PrimaryStyleButton.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

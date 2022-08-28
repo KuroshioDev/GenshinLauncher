@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="key\dispatchKey.txt" />
+    <None Remove="key\passwordKey.txt" />
+    <None Remove="Resources\bg.png" />
+    <None Remove="Resources\Icon\discord.svg" />
+    <None Remove="Resources\Icon\github.svg" />
+    <None Remove="Resources\Icon\QQ.svg" />
+    <None Remove="Resources\settingbg.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="key\dispatchKey.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="key\passwordKey.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\bg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icon\discord.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icon\github.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icon\QQ.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\settingbg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Panuon.WPF.UI" Version="1.0.6" />
+    <PackageReference Include="SharpVectors.Wpf" Version="1.8.0" />
+    <PackageReference Include="Titanium.Web.Proxy" Version="3.1.1450" />
+  </ItemGroup>
+
+</Project>
