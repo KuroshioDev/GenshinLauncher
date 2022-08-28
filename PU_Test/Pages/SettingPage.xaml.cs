@@ -31,6 +31,9 @@ namespace PU_Test.Pages
         private void CloseDialog(object sender, RoutedEventArgs e)
         {
             GlobalValues.frame.Visibility = Visibility.Collapsed;
+
+
+            
         }
 
         private void GoToBroswer(object sender, MouseButtonEventArgs e)

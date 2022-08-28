@@ -78,6 +78,11 @@ namespace PU_Test.ViewModel
         [RelayCommand]
         private void StartGame()
         {
+            if (new PatchHelper(launcherConfig.GameInfo).GetPatchStatue()==PatchHelper.PatchType.None)
+            {
+                GameHelper.StartGame(launcherConfig.GameInfo.GameExePath);
+                return;
+            }
             if (!IsGameRunning)
             {
 
