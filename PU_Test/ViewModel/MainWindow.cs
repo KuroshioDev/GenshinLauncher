@@ -18,7 +18,7 @@ namespace PU_Test.ViewModel
     partial class MainWindow : ObservableObject
     {
 
-        private ProxyHelper.ProxyController proxyController;
+        public ProxyHelper.ProxyController proxyController;
 
         public MainWindow()
         {

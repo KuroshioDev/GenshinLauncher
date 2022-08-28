@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PU_Test.Common.Game
 {
@@ -22,7 +23,15 @@ namespace PU_Test.Common.Game
                     FileName = filePath,
                     UseShellExecute = true,
                 };
-                Process.Start(startInfo);
+                try
+                {
+                    Process.Start(startInfo);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
                 //Start("cmd.exe",$"/c \"{filePath}\"");
             }
             else

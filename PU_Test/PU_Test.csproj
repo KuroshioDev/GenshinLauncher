@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="key\dispatchKey.txt" />
     <None Remove="key\passwordKey.txt" />
+    <None Remove="MetadataConverterLib.dll" />
     <None Remove="Resources\bg.png" />
     <None Remove="Resources\Icon\discord.svg" />
     <None Remove="Resources\Icon\github.svg" />
@@ -22,6 +23,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="key\passwordKey.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MetadataConverterLib.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\bg.png">
