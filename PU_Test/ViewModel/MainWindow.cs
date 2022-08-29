@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using PU_Test.Common;
 using PU_Test.Common.Game;
 using PU_Test.Common.Patch;
 using PU_Test.Common.Proxy;
@@ -25,6 +26,12 @@ namespace PU_Test.ViewModel
             try
             {
                 launcherConfig=JsonConvert.DeserializeObject<LauncherConfig>(File.ReadAllText("config.json"));
+
+                Task.Run(async () =>
+                {
+                    ServerInfo = await ServerInfoGetter.GetAsync(launcherConfig.ProxyConfig.ProxyServer);
+
+                });
             }
             catch (Exception ex)
             {
@@ -48,6 +55,16 @@ namespace PU_Test.ViewModel
             ShowPatchStatue();
 
         }
+
+        public void UpdateSI()
+        {
+            Task.Run(async () =>
+            {
+                ServerInfo = await ServerInfoGetter.GetAsync(launcherConfig.ProxyConfig.ProxyServer);
+
+            });
+        }
+
         public void ShowPatchStatue()
         {
             switch (new PatchHelper(launcherConfig.GameInfo).GetPatchStatue())
@@ -72,6 +89,9 @@ namespace PU_Test.ViewModel
 
         [ObservableProperty]
         private string patchStatueStr = "未知";
+
+        [ObservableProperty]
+        private ServerInfo serverInfo = new ServerInfo();
 
         private bool IsGameRunning=false;
 

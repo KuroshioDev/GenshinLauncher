@@ -120,20 +120,36 @@
                             <Setter Property="Foreground" Value="#ffd284" />
                         </Style>
                     </TabControl.Resources>
-                    <TabItem Header="活动" Style="{DynamicResource TabItemStyle1}">
-                        <StackPanel>
-                            <TextBlock
-                                Margin="10"
-                                MouseLeftButtonDown="GoToBroswer"
-                                Tag="https://github.com/gc-toolkit/GenshinLauncher">
-                                测试项目：<Hyperlink Cursor="Hand" NavigateUri="https://github.com/SwetyCore/GenshinLauncher">SwetyCore/GenshinLauncher</Hyperlink>
+                    <TabItem
+                        Header="状态"
+                        Style="{DynamicResource TabItemStyle1}"
+                        ToolTip="点击刷新">
+                        <StackPanel Margin="10" MouseLeftButtonDown="RefreshServerInfo">
+                            <TextBlock HorizontalAlignment="Center" Text="ServerInfo" />
+                            <TextBlock>
+                                <Run Text="[Ping]:" />
+                                <Run Text="{Binding ServerInfo.timeout}" />
+                                <Run Text="ms" />
+                                <LineBreak />
+                                <Run Text="[在线]:" />
+                                <Run Text="{Binding ServerInfo.players}" />
+                                <Run Text="人" />
+                                <LineBreak />
+
+                                <Run Text="[版本]:" />
+                                <Run Text="{Binding ServerInfo.ver}" />
                             </TextBlock>
                         </StackPanel>
                     </TabItem>
                     <TabItem Header="公告" Style="{DynamicResource TabItemStyle1}">
                         <StackPanel>
                             <TextBlock Margin="10">
-                                默认：<Hyperlink Cursor="Hand" NavigateUri="https://github.com/SwetyCore/GenshinLauncher">SwetyCore/GenshinLauncher</Hyperlink>
+                                开源地址：<Hyperlink
+                                    Cursor="Hand"
+                                    MouseLeftButtonDown="GoToBroswer"
+                                    Tag="https://github.com/gc-toolkit/GenshinLauncher">
+                                    SwetyCore/GenshinLauncher
+                                </Hyperlink>
                             </TextBlock>
                         </StackPanel>
                     </TabItem>
@@ -186,6 +202,7 @@
         <Frame
             x:Name="dialog_frame"
             Grid.Row="1"
+            d:IsHidden="True"
             NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

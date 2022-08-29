@@ -4,55 +4,57 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PU_Test.Common
 {
-        public static class ServerInfoGetter
+    public static class ServerInfoGetter
+    {
+
+
+        public static async Task<string> HttpGet(string url, Dictionary<string, string> dic = null)
         {
+            HttpResponseMessage response;
+            HttpClientHandler handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = delegate { return true; };
+            #region 参数添加
+            StringBuilder builder = new StringBuilder();
+                        builder.Append(url);
+                        if (dic != null)
+                        {
 
-
-            public static async Task<string> HttpGet(string url, Dictionary<string, string> dic = null)
-
+                            if (dic.Count > 0)
+                            {
+                                builder.Append("?");
+                                int i = 0;
+                                foreach (var item in dic)
+                                {
+                                    if (i > 0)
+                                        builder.Append("&");
+                                    builder.AppendFormat("{0}={1}", item.Key, item.Value);
+                                    i++;
+                                }
+                            }
+                        }
+            #endregion
+            try
             {
 
-
-                HttpResponseMessage response;
-                //参数添加
-                StringBuilder builder = new StringBuilder();
-                builder.Append(url);
-                if (dic != null)
-                {
-
-                    if (dic.Count > 0)
-                    {
-                        builder.Append("?");
-                        int i = 0;
-                        foreach (var item in dic)
-                        {
-                            if (i > 0)
-                                builder.Append("&");
-                            builder.AppendFormat("{0}={1}", item.Key, item.Value);
-                            i++;
-                        }
-                    }
-                }
-
-                try
-                {
-
-                    response = await new HttpClient().GetAsync(new Uri(builder.ToString()));
-                }
-                catch (Exception e)
-                {
-                    return null;
-                }
-                string result = await response.Content.ReadAsStringAsync();
-
-                return result;
+                response = await new HttpClient(handler) .GetAsync(new Uri(builder.ToString()));
             }
+            catch (Exception e)
+            {
+                return null;
+            }
+            string result = await response.Content.ReadAsStringAsync();
+
+            return result;
+        }
 
             class REPDT
             {

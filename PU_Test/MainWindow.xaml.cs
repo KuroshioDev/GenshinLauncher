@@ -1,4 +1,5 @@
-﻿using PU_Test.Model;
+﻿using PU_Test.Common;
+using PU_Test.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -58,6 +59,12 @@ namespace PU_Test
             dynamic control = sender;
             var url=control.Tag.ToString();
             Process.Start("explorer.exe", url);
+        }
+
+        private void RefreshServerInfo(object sender, MouseButtonEventArgs e)
+        {
+                vm.UpdateSI();
+
         }
     }
 }
