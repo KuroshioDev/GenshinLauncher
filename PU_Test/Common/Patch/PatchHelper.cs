@@ -148,10 +148,18 @@ namespace PU_Test.Common.Patch
         public void PatchMetaData()
         {
             var file_path = GetPatchDir();
+            try
+            {
 
-            BackUpFile(Path.Combine(file_path, METADATA_FILE_NAME));
+                BackUpFile(Path.Combine(file_path, METADATA_FILE_NAME));
 
-            DoPatchMetaData(Path.Combine(file_path, METADATA_FILE_NAME));
+                DoPatchMetaData(Path.Combine(file_path, METADATA_FILE_NAME));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
 
             MessageBox.Show("Patch完成!");
         }
